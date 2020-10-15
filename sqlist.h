@@ -68,33 +68,17 @@ status LoadList(SqList &L, char FileName[]);
 
 int ListBiSearch(SqList &L, ElemType e);
 
-int biSearch(ElemType v[], int low, int high, ElemType e);
-
-status checkIncrease(const ElemType v[], int n);
-
 /*--------------------------------------------*/
-
-
-typedef struct {  //线性表的集合类型定义
-    struct {
-        char name[30];
-        SqList L;
-    } elem[10];
-    int length;
-    int listsize;
-} LISTS;
-
-status AddList(LISTS &Lists, const char ListName[]);
-
-status RemoveList(LISTS &Lists, char ListName[]);
-
-int LocateList(LISTS Lists, char ListName[]);
 
 void qSort(ElemType *v, int right, int left);
 
 int partition(ElemType *v, int right, int left);
 
 status ListQSort(SqList L);
+
+int biSearch(ElemType v[], int low, int high, ElemType e);
+
+status checkIncrease(const ElemType v[], int n);
 
 
 /*---------Definition of SqList functions---------*/
@@ -242,47 +226,6 @@ status LoadList(SqList &L, char *FileName) {
 
 /*--------------------------------------------*/
 
-
-
-status AddList(LISTS &Lists, const char *ListName) {
-    if (Lists.length >= 10)return OVERFLOW;
-    int i = 0;
-    for (i = 0; ListName[i] != '\0'; ++i) {
-        Lists.elem[Lists.length].name[i] = ListName[i];
-    }
-    Lists.elem[Lists.length].name[i] = '\0';
-    Lists.elem[Lists.length].L.elem = nullptr;
-    InitList(Lists.elem[Lists.length].L);
-    Lists.length++;
-    return OK;
-}
-
-status RemoveList(LISTS &Lists, char *ListName) {
-    int j = -1;//ready to delete
-    for (int i = 0; i < Lists.length; ++i) {
-        if (strcmp(Lists.elem[i].name, ListName) == 0) {
-            j = i;
-            break;
-        }
-    }
-    if (j == -1)return ERROR;
-    for (int i = j; i < Lists.length - 1; ++i) {
-        strcpy(Lists.elem[i].name, Lists.elem[i + 1].name);
-        Lists.elem[i].L.elem = Lists.elem[i + 1].L.elem;
-        Lists.elem[i].L.length = Lists.elem[i + 1].L.length;
-    }
-    Lists.length--;
-    return OK;
-}
-
-int LocateList(LISTS Lists, char *ListName) {
-    for (int i = 0; i < Lists.length; ++i) {
-        if (strcmp(Lists.elem[i].name, ListName) == 0) {
-            return i + 1;
-        }
-    }
-    return 0;
-}
 
 status ListQSort(SqList L) {
     if (L.elem == nullptr)return INFEASIBLE;

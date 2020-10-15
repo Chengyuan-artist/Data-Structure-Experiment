@@ -1,7 +1,4 @@
 #include "sqlist.h"
-#include <iostream>
-
-using namespace std;
 
 int main() {
     SqList L;
@@ -12,7 +9,7 @@ int main() {
     int e_ad;//元素前驱或后继
     int pos_res;//元素查找位序
 
-    setbuf(stdout, 0);
+//    setbuf(stdout, 0);
 
     while (op) {
         system("cls");
@@ -135,12 +132,12 @@ int main() {
                 else printf("排序操作失败！线性表为空或未初始化\n");
                 break;
             case 14:
-                if (LoadList(L, "test.in") == OK)cout << "成功" << endl;
-                else cout << "失败" << endl;
+                if (LoadList(L, "test.in") == OK)printf("读取文件成功！\n");
+                else printf("读取文件失败！\n");
                 break;
             case 15:
-                if (SaveList(L, "test.out") == OK)cout << "成功" << endl;
-                else cout << "失败" << endl;
+                if (SaveList(L, "test.out") == OK)printf("保存成功!\n");
+                else printf("保存失败！\n");
                 break;
             case 16:
                 printf("请输入待查找的元素：");
@@ -158,10 +155,11 @@ int main() {
                 }
                 break;
             case 0:
+                printf("欢迎下次再使用本系统！\n");
                 break;
         }//end of switch
         system("pause");
     }//end of while
-    printf("欢迎下次再使用本系统！\n");
+    return 0;
 }//end of main()
 
