@@ -21,6 +21,7 @@
 #define ERROR 0
 #define INFEASIBLE -1
 #define OVERFLOW -2
+#define EXCEPTION -3
 
 typedef int status;
 typedef int ElemType; //数据元素类型定义
@@ -65,6 +66,12 @@ status SaveList(SqList L, char FileName[]);
 
 status LoadList(SqList &L, char FileName[]);
 
+int ListBiSearch(SqList &L, ElemType e);
+
+int biSearch(ElemType v[], int low, int high, ElemType e);
+
+status checkIncrease(const ElemType v[], int n);
+
 /*--------------------------------------------*/
 
 
@@ -107,6 +114,7 @@ status ListTraverse(SqList L) {
         printf("%d", L.elem[i]);
         if (i != L.length - 1)printf(" ");
     }
+    printf("\n");
     return OK;
 }
 
@@ -306,3 +314,37 @@ void qSort(ElemType *v, int right, int left) {
         qSort(v, mid + 1, left);
     }
 }
+
+int ListBiSearch(SqList &L, ElemType e) {
+    //前提：线性表已然递增排列
+    //若e存在，返回其逻辑位序；否则返回-1
+    if (L.elem != nullptr && checkIncrease(L.elem, L.length)){
+        return biSearch(L.elem,0,L.length-1,e);
+    }else{
+        return EXCEPTION;//标志其他情况：不满足条件
+    }
+}
+
+int biSearch(ElemType *v, int low, int high, ElemType e) {
+    //若e存在，返回其逻辑位序；否则返回-1
+    //[low,high]
+    //v已然以递增顺序排列
+    if (low > high)return -1;
+    //low<=high
+    int mid = low + (high - low) / 2;
+    if (v[mid] == e)return mid;
+    if (v[mid] > e)return biSearch(v, low, mid - 1, e);
+    if (v[mid] < e)return biSearch(v, mid + 1, high, e);
+
+    return EXCEPTION;//catch error 意外的情况
+}
+
+status checkIncrease(const ElemType *v, int n) {
+    //用于判断序列v是否递增，是返回1，不是返回0
+    for (int i = 1; i < n; ++i) {
+        if (v[i - 1] > v[i])return FALSE;
+    }
+    return TRUE;
+}
+
+

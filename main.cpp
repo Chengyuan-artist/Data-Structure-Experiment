@@ -1,27 +1,32 @@
 #include "sqlist.h"
 #include <iostream>
+
 using namespace std;
+
 int main() {
     SqList L;
-    int op = 1;
+    int op = 1;//操作指令
 
     int i;//元素位序
     int e;//元素
     int e_ad;//元素前驱或后继
+    int pos_res;//元素查找位序
+
     setbuf(stdout, 0);
+
     while (op) {
-//        system("cls");
+        system("cls");
         printf("\n\n");
         printf("      Menu for Linear Table On Sequence Structure \n");
         printf("-------------------------------------------------\n");
         printf("    	  1. InitList       7. LocateElem\n");
         printf("    	  2. DestroyList    8. PriorElem\n");
-        printf("    	  3. ClearList       9. NextElem \n");
-        printf("    	  4. ListEmpty     10. ListInsert\n");
+        printf("    	  3. ClearList      9. NextElem \n");
+        printf("    	  4. ListEmpty      10. ListInsert\n");
         printf("    	  5. ListLength     11. ListDelete\n");
-        printf("    	  6. GetElem       12. ListTraverse\n");
-        printf("    	  13.ListQSort     14.LoadList\n");
-        printf("    	  15.SaveList\n");
+        printf("    	  6. GetElem        12. ListTraverse\n");
+        printf("    	  13.ListQSort      14. LoadList\n");
+        printf("    	  15.SaveList       16. ListBiSearch\n");
         printf("    	  0. Exit\n");
         printf("-------------------------------------------------\n");
         printf("    请选择你的操作[0~15]:");
@@ -121,24 +126,41 @@ int main() {
                     case FALSE:
                         ListTraverse(L);
                         break;
-                    default:break;
+                    default:
+                        break;
                 }
                 break;
             case 13:
-                if(ListQSort(L)==OK)printf("排序成功！\n");
+                if (ListQSort(L) == OK)printf("排序成功！\n");
                 else printf("排序操作失败！线性表为空或未初始化\n");
                 break;
             case 14:
-                if(LoadList(L,"test.in")==OK)cout<<"成功"<<endl;
-                else cout<<"失败"<<endl;
+                if (LoadList(L, "test.in") == OK)cout << "成功" << endl;
+                else cout << "失败" << endl;
                 break;
             case 15:
-                if(SaveList(L,"test.out")==OK)cout<<"成功"<<endl;
-                else cout<<"失败"<<endl;
+                if (SaveList(L, "test.out") == OK)cout << "成功" << endl;
+                else cout << "失败" << endl;
+                break;
+            case 16:
+                printf("请输入待查找的元素：");
+                scanf("%d", &e);
+                pos_res = ListBiSearch(L, e);
+                switch (pos_res) {
+                    case EXCEPTION:
+                        printf("不满足调用条件(表已初始化;递增排序)\n");
+                        break;
+                    case -1:
+                        printf("元素%d不存在！\n", e);
+                        break;
+                    default:
+                        printf("元素%d的位序为%d\n", e, pos_res + 1);
+                }
                 break;
             case 0:
                 break;
         }//end of switch
+        system("pause");
     }//end of while
     printf("欢迎下次再使用本系统！\n");
 }//end of main()
