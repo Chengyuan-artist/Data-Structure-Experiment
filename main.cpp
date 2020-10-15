@@ -49,12 +49,11 @@ int main() {
                 break;
             case 5:
 //                printf("\n----ListLength功能待实现！\n");
-                printf("\n----LocateElem功能待实现！\n");
                 if (ListLength(L) == -1)printf("线性表尚未初始化！\n");
                 else printf("线性表长度为%d\n", ListLength(L));
                 break;
             case 6:
-                printf("\n----GetElem功能待实现！\n");
+//                printf("\n----GetElem功能待实现！\n");
                 printf("请输入欲获取元素的位序i:");
                 scanf("%d", &i);
                 switch (GetElem(L, i, e)) {
@@ -128,12 +127,15 @@ int main() {
             case 13:
                 if(ListQSort(L)==OK)printf("排序成功！\n");
                 else printf("排序操作失败！线性表为空或未初始化\n");
+                break;
             case 14:
                 if(LoadList(L,"test.in")==OK)cout<<"成功"<<endl;
                 else cout<<"失败"<<endl;
+                break;
             case 15:
                 if(SaveList(L,"test.out")==OK)cout<<"成功"<<endl;
                 else cout<<"失败"<<endl;
+                break;
             case 0:
                 break;
         }//end of switch

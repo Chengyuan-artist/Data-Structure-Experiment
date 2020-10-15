@@ -47,7 +47,7 @@ int ListLength(SqList L);
 
 status GetElem(SqList L, int i, ElemType &e);
 
-status LocateElem(SqList L, ElemType e); //简化过
+status LocateElem(SqList L, ElemType e);
 
 status PriorElem(SqList L, ElemType cur, ElemType &pre_e);
 
@@ -57,7 +57,7 @@ status ListInsert(SqList &L, int i, ElemType e);
 
 status ListDelete(SqList &L, int i, ElemType &e);
 
-status ListTraverse(SqList L);  //简化过
+status ListTraverse(SqList L);
 
 status ListQSort(SqList L);
 
@@ -102,11 +102,6 @@ status InitList(SqList &L) {
 }
 
 status ListTraverse(SqList L) {
-//    int i;
-//    printf("\n-----------all elements -----------------------\n");
-//    for (i = 0; i < L.length; i++) printf("%d ", L.elem[i]);
-//    printf("\n------------------ end ------------------------\n");
-//    return L.length;
     if (L.elem == nullptr)return INFEASIBLE;
     for (int i = 0; i < L.length; ++i) {
         printf("%d", L.elem[i]);
@@ -211,40 +206,24 @@ status ListDelete(SqList &L, int i, ElemType &e) {
 
 status SaveList(SqList L, char *FileName) {
     if (L.elem == nullptr)return INFEASIBLE;
-//    FILE *out = fopen(FileName, "wb");
-//    fwrite(L.elem, sizeof(ElemType), L.length, out);
-//    fclose(out);
     FILE *out = fopen(FileName, "w");
-    for(int i=0;i<L.length-1;++i){
-        fprintf(out,"%d ",L.elem[i]);
+    for (int i = 0; i < L.length - 1; ++i) {
+        fprintf(out, "%d ", L.elem[i]);
     }
-    fprintf(out,"%d",L.elem[L.length-1]);
+    fprintf(out, "%d", L.elem[L.length - 1]);
     fclose(out);
     return OK;
 }
 
 status LoadList(SqList &L, char *FileName) {
     if (L.elem != nullptr)return INFEASIBLE;
-//    FILE *in = fopen(FileName, "rb");
-//    L.length = L.listsize = 0;
-//    L.elem = (ElemType *) malloc(LIST_INIT_SIZE * sizeof(ElemType));
-//    ElemType *p = L.elem;
-//    while (!feof(in)) {
-//        if (L.length >= L.listsize) {
-//            L.elem = (ElemType *) realloc(L.elem, (LIST_INCREMENT + L.listsize) * sizeof(ElemType));
-//            L.listsize += LIST_INCREMENT;
-//        }
-//        fread(p++, sizeof(ElemType), 1, in);
-//        if (!feof(in))L.length++;
-//    }
-//    fclose(in);
     FILE *in = fopen(FileName, "r");
     L.length = L.listsize = 0;
     L.elem = (ElemType *) malloc(LIST_INIT_SIZE * sizeof(ElemType));
     ElemType e;
-    while(fscanf(in,"%d",&e)!=EOF){
-        L.elem[L.length++]=e;
-        if(L.length>=L.listsize){
+    while (fscanf(in, "%d", &e) != EOF) {
+        L.elem[L.length++] = e;
+        if (L.length >= L.listsize) {
             L.elem = (ElemType *) realloc(L.elem, (LIST_INCREMENT + L.listsize) * sizeof(ElemType));
             L.listsize += LIST_INCREMENT;
         }
@@ -298,9 +277,9 @@ int LocateList(LISTS Lists, char *ListName) {
 }
 
 status ListQSort(SqList L) {
-    if(L.elem== nullptr)return INFEASIBLE;
-    if(ListEmpty(L))return ERROR;
-    qSort(L.elem,0,L.length-1);
+    if (L.elem == nullptr)return INFEASIBLE;
+    if (ListEmpty(L))return ERROR;
+    qSort(L.elem, 0, L.length - 1);
     return OK;
 }
 
