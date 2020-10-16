@@ -114,8 +114,10 @@ status DestroyList(SqList &L) {
 }
 
 status ClearList(SqList &L) {
+    if(L.elem== nullptr)return INFEASIBLE;
     DestroyList(L);
     InitList(L);
+    return OK;
 }
 
 status ListEmpty(SqList L) {
@@ -208,8 +210,7 @@ status SaveList(SqList L, char *FileName) {
 status LoadList(SqList &L, char *FileName) {
     if (L.elem != nullptr)return INFEASIBLE;
     FILE *in = fopen(FileName, "r");
-    L.length = L.listsize = 0;
-    L.elem = (ElemType *) malloc(LIST_INIT_SIZE * sizeof(ElemType));
+    InitList(L);
     ElemType e;
     while (fscanf(in, "%d", &e) != EOF) {
         L.elem[L.length++] = e;
