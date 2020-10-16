@@ -1,0 +1,1 @@
+This is a HUST DataStructure Lab. task.
