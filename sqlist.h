@@ -50,9 +50,9 @@ status GetElem(SqList L, int i, ElemType &e);
 
 status LocateElem(SqList L, ElemType e);
 
-status PriorElem(SqList L, ElemType cur, ElemType &pre_e);
+status PriorElem(SqList L, ElemType e, ElemType &pre_e);
 
-status NextElem(SqList L, ElemType cur, ElemType &next_e);
+status NextElem(SqList L, ElemType e, ElemType &next_e);
 
 status ListInsert(SqList &L, int i, ElemType e);
 
@@ -139,29 +139,25 @@ status LocateElem(SqList L, ElemType e) {
         i++;
     }
     if (i < L.length)return i + 1;//若结果合法，返回位序i
-    else return ERROR;//返回-1，表示线性表中不存在满足条件的元素
+    else return ERROR;//返回0，表示线性表中不存在满足条件的元素
 }
 
-status PriorElem(SqList L, ElemType cur, ElemType &pre_e) {
+status PriorElem(SqList L, ElemType e, ElemType &pre_e) {
     if (L.elem == nullptr)return INFEASIBLE;
-    for (int i = 0; i < L.length; ++i) {
-        if (L.elem[i] == cur && i != 0) {
-            pre_e = L.elem[i - 1];
-            return OK;
-        }
-    }
-    return ERROR;
+    int real_i = LocateElem(L, e);
+    if (real_i == 0)return ERROR;//元素e不在表L中
+    if (real_i == 1)return EXCEPTION;//元素e不存在前驱
+    pre_e = L.elem[real_i - 2];
+    return OK;
 }
 
-status NextElem(SqList L, ElemType cur, ElemType &next_e) {
+status NextElem(SqList L, ElemType e, ElemType &next_e) {
     if (L.elem == nullptr)return INFEASIBLE;
-    for (int i = 0; i < L.length; ++i) {
-        if (L.elem[i] == cur && i != L.length - 1) {
-            next_e = L.elem[i + 1];
-            return OK;
-        }
-    }
-    return ERROR;
+    int real_i = LocateElem(L, e);
+    if (real_i == 0)return ERROR;//元素e不在表L中
+    if (real_i == L.length)return EXCEPTION;//元素e不存在后继
+    next_e = L.elem[real_i];
+    return OK;
 }
 
 status ListInsert(SqList &L, int i, ElemType e) {

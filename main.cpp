@@ -86,15 +86,39 @@ int main() {
                 //printf("\n----PriorElem功能待实现！\n");
                 printf("请输入线性表中的某元素e:");
                 scanf("%d", &e);
-                if (PriorElem(L, e, e_ad) == OK)printf("元素%d的直接前驱为%d\n", e, e_ad);
-                else printf("操作失败！\n");
+                i = PriorElem(L, e, e_ad);
+                switch (i) {
+                    case INFEASIBLE:
+                        printf("线性表未初始化！\n");
+                        break;
+                    case ERROR:
+                        printf("元素%d不在线性表中！\n", e);
+                        break;
+                    case EXCEPTION:
+                        printf("元素%d不存在前驱！\n", e);
+                        break;
+                    default:
+                        printf("元素%d的直接前驱为%d\n", e, e_ad);
+                }
                 break;
             case 9:
                 //printf("\n----NextElem功能待实现！\n");
                 printf("请输入线性表中的某元素e:");
                 scanf("%d", &e);
-                if (NextElem(L, e, e_ad) == OK)printf("元素%d的直接后继为%d\n", e, e_ad);
-                else printf("操作失败！\n");
+                i = NextElem(L, e, e_ad);
+                switch (i) {
+                    case INFEASIBLE:
+                        printf("线性表未初始化！\n");
+                        break;
+                    case ERROR:
+                        printf("元素%d不在线性表中！\n", e);
+                        break;
+                    case EXCEPTION:
+                        printf("元素%d不存在后继！\n", e);
+                        break;
+                    default:
+                        printf("元素%d的直接后继为%d\n", e, e_ad);
+                }
                 break;
             case 10:
                 //printf("\n----ListInsert功能待实现！\n");
