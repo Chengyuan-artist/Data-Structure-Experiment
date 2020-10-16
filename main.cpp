@@ -8,6 +8,7 @@ int main() {
     int e;//元素
     int e_ad;//元素前驱或后继
     int pos_res;//元素查找位序
+    int cmd;//排序指令
 
 //    setbuf(stdout, 0);
 
@@ -128,7 +129,9 @@ int main() {
                 }
                 break;
             case 13:
-                if (ListQSort(L) == OK)printf("排序成功！\n");
+                printf("请输入排序指令（1为升序，0为降序;其他情况默认升序）:\n");
+                scanf("%d", &cmd);
+                if (ListQSort(L, cmd) == OK)printf("排序成功！\n");
                 else printf("排序操作失败！线性表为空或未初始化\n");
                 break;
             case 14:

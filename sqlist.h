@@ -60,7 +60,7 @@ status ListDelete(SqList &L, int i, ElemType &e);
 
 status ListTraverse(SqList L);
 
-status ListQSort(SqList L);
+status ListQSort(SqList L, int cmd);
 
 status SaveList(SqList L, char FileName[]);
 
@@ -70,11 +70,9 @@ int ListBiSearch(SqList &L, ElemType e);
 
 /*--------------------------------------------*/
 
-void qSort(ElemType *v, int right, int left);
+void qSort(ElemType *v, int right, int left, int cmd);
 
-int partition(ElemType *v, int right, int left);
-
-status ListQSort(SqList L);
+int partition(ElemType *v, int right, int left, int cmd);
 
 int biSearch(ElemType v[], int low, int high, ElemType e);
 
@@ -227,43 +225,62 @@ status LoadList(SqList &L, char *FileName) {
 /*--------------------------------------------*/
 
 
-status ListQSort(SqList L) {
+status ListQSort(SqList L, int cmd) {
     if (L.elem == nullptr)return INFEASIBLE;
     if (ListEmpty(L))return ERROR;
-    qSort(L.elem, 0, L.length - 1);
+    qSort(L.elem, 0, L.length - 1, cmd);
     return OK;
 }
 
-int partition(ElemType *v, int right, int left) {
+int partition(ElemType *v, int right, int left, int cmd) {
+    //分划函数，选取v的首元素为关键字;
+    //指令cmd为1时，将大于其的元素至于其右，小于其元素至于其左；为0时则相反
+    //默认升序
     int ref = v[right];
-    while (right < left) {
-        while (right < left && v[left] >= ref) {
-            left--;
+    if (!cmd) {//cmd==0 降序
+        while (right < left) {
+            while (right < left && v[left] <= ref) {
+                left--;
+            }
+            v[right] = v[left];
+            while (right < left && v[right] >= ref) {
+                right++;
+            }
+            v[left] = v[right];
         }
-        v[right] = v[left];
-        while (right < left && v[right] <= ref) {
-            right++;
+        v[right] = ref;
+        return right;
+    } else {//cmd为真，升序
+        while (right < left) {
+            while (right < left && v[left] >= ref) {
+                left--;
+            }
+            v[right] = v[left];
+            while (right < left && v[right] <= ref) {
+                right++;
+            }
+            v[left] = v[right];
         }
-        v[left] = v[right];
+        v[right] = ref;
+        return right;
     }
-    v[right] = ref;
-    return right;
+    //注释：此为无奈之举。实际上通过传递函数和C++11中有关lambda表达式的新特性可以大大减少代码量
 }
 
-void qSort(ElemType *v, int right, int left) {
+void qSort(ElemType *v, int right, int left, int cmd) {
     if (right < left) {
-        int mid = partition(v, right, left);
-        qSort(v, right, mid - 1);
-        qSort(v, mid + 1, left);
+        int mid = partition(v, right, left, cmd);
+        qSort(v, right, mid - 1, cmd);
+        qSort(v, mid + 1, left, cmd);
     }
 }
 
 int ListBiSearch(SqList &L, ElemType e) {
     //前提：线性表已然递增排列
     //若e存在，返回其逻辑位序；否则返回-1
-    if (L.elem != nullptr && checkIncrease(L.elem, L.length)){
-        return biSearch(L.elem,0,L.length-1,e);
-    }else{
+    if (L.elem != nullptr && checkIncrease(L.elem, L.length)) {
+        return biSearch(L.elem, 0, L.length - 1, e);
+    } else {
         return EXCEPTION;//标志其他情况：不满足条件
     }
 }
