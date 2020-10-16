@@ -74,7 +74,7 @@ void qSort(ElemType *v, int right, int left, int cmd);
 
 int partition(ElemType *v, int right, int left, int cmd);
 
-int biSearch(ElemType v[], int low, int high, ElemType e);
+int biSearch(ElemType v[], int low, int high, ElemType e, int cmd);
 
 status checkIncrease(const ElemType *v, int n);
 
@@ -278,14 +278,15 @@ void qSort(ElemType *v, int right, int left, int cmd) {
 int ListBiSearch(SqList &L, ElemType e) {
     //前提：线性表已然递增排列
     //若e存在，返回其逻辑位序；否则返回-1
-    if (L.elem != nullptr && checkOrder(L.elem, L.length)) {
-        return biSearch(L.elem, 0, L.length - 1, e);
+    int state;
+    if (L.elem != nullptr && (state = checkOrder(L.elem, L.length))) {
+        return biSearch(L.elem, 0, L.length - 1, e, state);
     } else {
         return EXCEPTION;//标志其他情况：不满足条件
     }
 }
 
-int biSearch(ElemType *v, int low, int high, ElemType e) {
+int biSearch(ElemType *v, int low, int high, ElemType e, int cmd) {
     //若e存在，返回其逻辑位序；否则返回-1
     //[low,high]
     //v已然以递增顺序排列
@@ -293,15 +294,16 @@ int biSearch(ElemType *v, int low, int high, ElemType e) {
     //low<=high
     int mid = low + (high - low) / 2;
     if (v[mid] == e)return mid;
-    if (v[mid] > e)return biSearch(v, low, mid - 1, e);
-    if (v[mid] < e)return biSearch(v, mid + 1, high, e);
+    if (v[mid] * cmd > e * cmd)return biSearch(v, low, mid - 1, e, cmd);
+    if (v[mid] * cmd < e * cmd)return biSearch(v, mid + 1, high, e, cmd);
 
     return EXCEPTION;//catch error 意外的情况
 }
 
 status checkOrder(const ElemType *v, int n) {
-    if(checkIncrease(v,n)||checkDecrease(v,n))return TRUE;
-    else return FALSE;
+    if (checkIncrease(v, n))return 1;
+    if (checkDecrease(v, n))return -1;
+    return FALSE;
 }
 
 status checkIncrease(const ElemType *v, int n) {
