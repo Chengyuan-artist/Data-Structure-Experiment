@@ -1,5 +1,7 @@
 #include "sqlist.h"
 
+using namespace std;
+
 int main() {
     SqList L;
     int op = 1;//操作指令
@@ -8,7 +10,7 @@ int main() {
     int e;//元素
     int e_ad;//元素前驱或后继
     int pos_res;//元素查找位序
-    int cmd;//排序指令
+    int cmd;//排序指
 
 //    setbuf(stdout, 0);
 
@@ -72,7 +74,7 @@ int main() {
                 }
                 break;
             case 7:
-                //printf("\n----LocateElem功能待实现！\n");
+//                printf("\n----LocateElem功能待实现！\n");
                 printf("请输入元素值e:");
                 scanf("%d", &e);
                 i = LocateElem(L, e);
@@ -83,7 +85,7 @@ int main() {
                 }
                 break;
             case 8:
-                //printf("\n----PriorElem功能待实现！\n");
+//                printf("\n----PriorElem功能待实现！\n");
                 printf("请输入线性表中的某元素e:");
                 scanf("%d", &e);
                 i = PriorElem(L, e, e_ad);
@@ -102,7 +104,7 @@ int main() {
                 }
                 break;
             case 9:
-                //printf("\n----NextElem功能待实现！\n");
+//                printf("\n----NextElem功能待实现！\n");
                 printf("请输入线性表中的某元素e:");
                 scanf("%d", &e);
                 i = NextElem(L, e, e_ad);
@@ -121,23 +123,45 @@ int main() {
                 }
                 break;
             case 10:
-                //printf("\n----ListInsert功能待实现！\n");
+//                printf("\n----ListInsert功能待实现！\n");
                 printf("请输入插入元素e:");
                 scanf("%d", &e);
                 printf("请输入插入位置i:");
                 scanf("%d", &i);
-                if (ListInsert(L, i, e) == OK)printf("插入成功！\n");
-                else printf("插入失败！\n");
+                switch (ListInsert(L, i, e)) {
+                    case OK:
+                        printf("插入成功！\n");
+                        break;
+                    case ERROR:
+                        printf("插入位置不合法！\n");
+                        break;
+                    case INFEASIBLE:
+                        printf("线性表尚未初始化！\n");
+                        break;
+                    default:
+                        printf("插入操作失败！\n");
+                }
                 break;
             case 11:
 //                printf("\n----ListDelete功能待实现！\n");
                 printf("请输入待删除元素的位序i:");
                 scanf("%d", &i);
-                if (ListDelete(L, i, e) == OK)printf("删除成功！\n被删除元素为%d", e);
-                else printf("删除失败\n");
+                switch (ListDelete(L, i, e)) {
+                    case OK:
+                        printf("删除成功！\n被删除元素为%d\n", e);
+                        break;
+                    case ERROR:
+                        printf("删除位置不合法！\n");
+                        break;
+                    case INFEASIBLE:
+                        printf("线性表尚未初始化！\n");
+                        break;
+                    default:
+                        printf("删除操作失败！\n");
+                }
                 break;
             case 12:
-                //printf("\n----ListTraverse功能待实现！\n");
+//                printf("\n----ListTraverse功能待实现！\n");
                 switch (ListEmpty(L)) {
                     case INFEASIBLE:
                         printf("线性表尚未初始化！\n");
@@ -172,7 +196,7 @@ int main() {
                 pos_res = ListBiSearch(L, e);
                 switch (pos_res) {
                     case EXCEPTION:
-                        printf("不满足调用条件(表已初始化;递增排序)\n");
+                        printf("不满足调用条件(1.表已初始化;2.序列递增排序.)\n");
                         break;
                     case -1:
                         printf("元素%d不存在！\n", e);

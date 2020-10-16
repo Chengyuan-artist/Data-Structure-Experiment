@@ -76,7 +76,11 @@ int partition(ElemType *v, int right, int left, int cmd);
 
 int biSearch(ElemType v[], int low, int high, ElemType e);
 
-status checkIncrease(const ElemType v[], int n);
+status checkIncrease(const ElemType *v, int n);
+
+status checkDecrease(const ElemType *v, int n);
+
+status checkOrder(const ElemType *v, int n);
 
 
 /*---------Definition of SqList functions---------*/
@@ -274,7 +278,7 @@ void qSort(ElemType *v, int right, int left, int cmd) {
 int ListBiSearch(SqList &L, ElemType e) {
     //前提：线性表已然递增排列
     //若e存在，返回其逻辑位序；否则返回-1
-    if (L.elem != nullptr && checkIncrease(L.elem, L.length)) {
+    if (L.elem != nullptr && checkOrder(L.elem, L.length)) {
         return biSearch(L.elem, 0, L.length - 1, e);
     } else {
         return EXCEPTION;//标志其他情况：不满足条件
@@ -295,10 +299,23 @@ int biSearch(ElemType *v, int low, int high, ElemType e) {
     return EXCEPTION;//catch error 意外的情况
 }
 
+status checkOrder(const ElemType *v, int n) {
+    if(checkIncrease(v,n)||checkDecrease(v,n))return TRUE;
+    else return FALSE;
+}
+
 status checkIncrease(const ElemType *v, int n) {
     //用于判断序列v是否递增，是返回1，不是返回0
     for (int i = 1; i < n; ++i) {
         if (v[i - 1] > v[i])return FALSE;
+    }
+    return TRUE;
+}
+
+status checkDecrease(const ElemType *v, int n) {
+    //用于判断序列v是否递减，是返回1，不是返回0
+    for (int i = 1; i < n; ++i) {
+        if (v[i - 1] < v[i])return FALSE;
     }
     return TRUE;
 }
