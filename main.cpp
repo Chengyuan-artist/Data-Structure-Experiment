@@ -1,6 +1,5 @@
 #include "sqlist.h"
 
-using namespace std;
 
 int main() {
     SqList L;
@@ -10,7 +9,7 @@ int main() {
     int e;//元素
     int e_ad;//元素前驱或后继
     int pos_res;//元素查找位序
-    int cmd;//排序指
+    int cmd;//排序指令
 
 //    setbuf(stdout, 0);
 
@@ -19,12 +18,12 @@ int main() {
         printf("\n\n");
         printf("      Menu for Linear Table On Sequence Structure \n");
         printf("-------------------------------------------------\n");
-        printf("    	  1. InitList       7. LocateElem\n");
-        printf("    	  2. DestroyList    8. PriorElem\n");
-        printf("    	  3. ClearList      9. NextElem \n");
-        printf("    	  4. ListEmpty      10. ListInsert\n");
-        printf("    	  5. ListLength     11. ListDelete\n");
-        printf("    	  6. GetElem        12. ListTraverse\n");
+        printf("    	  1. InitList       2. DestroyList\n");
+        printf("    	  3. ClearList      4. ListEmpty \n");
+        printf("    	  5. ListLength     6. GetElem  \n");
+        printf("    	  7. LocateElem     8. PriorElem \n");
+        printf("    	  9. NextElem       10. ListInsert\n");
+        printf("    	  11. ListDelete    12. ListTraverse\n");
         printf("    	  13.ListQSort      14. LoadList\n");
         printf("    	  15.SaveList       16. ListBiSearch\n");
         printf("    	  0. Exit\n");
@@ -49,12 +48,21 @@ int main() {
                 break;
             case 4:
 //                printf("\n----ListEmpty功能待实现！\n");
-                if (ListEmpty(L))printf("线性表为空！\n");
-                else printf("线性表非空！\n");
+                switch (ListEmpty(L)) {
+                    case TRUE:
+                        printf("线性表为空！\n");
+                        break;
+                    case INFEASIBLE:
+                        printf("线性表未初始化！\n");
+                        break;
+                    case FALSE:
+                        printf("线性表非空！\n");
+                        break;
+                }
                 break;
             case 5:
 //                printf("\n----ListLength功能待实现！\n");
-                if (ListLength(L) == -1)printf("线性表尚未初始化！\n");
+                if (ListLength(L) == -1)printf("线性表未初始化！\n");
                 else printf("线性表长度为%d\n", ListLength(L));
                 break;
             case 6:
@@ -63,10 +71,10 @@ int main() {
                 scanf("%d", &i);
                 switch (GetElem(L, i, e)) {
                     case OK:
-                        printf("线性表中位序为i的元素值为%d\n", e);
+                        printf("线性表中位序为%d的元素值为%d\n", i, e);
                         break;
                     case ERROR:
-                        printf("位序i输入不合法！\n");
+                        printf("位序%d输入不合法！\n", i);
                         break;
                     case INFEASIBLE:
                         printf("线性表未初始化！\n");
@@ -78,10 +86,16 @@ int main() {
                 printf("请输入元素值e:");
                 scanf("%d", &e);
                 i = LocateElem(L, e);
-                if (i != INFEASIBLE) {
-                    printf("线性表中e的位序为%d\n", i);
-                } else {
-                    printf("线性表中不存在这样的元素！\n");
+                switch (i) {
+                    case INFEASIBLE:
+                        printf("线性表未初始化！\n");
+                        break;
+                    case 0:
+                        printf("线性表中不存在这样的元素！\n");
+                        break;
+                    default:
+                        printf("线性表中%d的位序为%d\n", e, i);
+
                 }
                 break;
             case 8:

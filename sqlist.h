@@ -114,7 +114,7 @@ status DestroyList(SqList &L) {
 }
 
 status ClearList(SqList &L) {
-    if(L.elem== nullptr)return INFEASIBLE;
+    if (L.elem == nullptr)return INFEASIBLE;
     DestroyList(L);
     InitList(L);
     return OK;
@@ -199,10 +199,10 @@ status ListDelete(SqList &L, int i, ElemType &e) {
 status SaveList(SqList L, char *FileName) {
     if (L.elem == nullptr)return INFEASIBLE;
     FILE *out = fopen(FileName, "w");
-    for (int i = 0; i < L.length - 1; ++i) {
-        fprintf(out, "%d ", L.elem[i]);
+    for (int i = 0; i < L.length; ++i) {
+        fprintf(out, "%d", L.elem[i]);
+        if (i != L.length - 1)fprintf(out, " ");
     }
-    fprintf(out, "%d", L.elem[L.length - 1]);
     fclose(out);
     return OK;
 }
